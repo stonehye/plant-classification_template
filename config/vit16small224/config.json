@@ -131,11 +131,11 @@
             }
         },
         "wandb": {
-            "WANDB_API_KEY": "f50bc3d3372add9783d854cdef2624aa91789f65",
+            "WANDB_API_KEY": "", # TODO:
             "WANDB_USERNAME": "Joy",
             "run_name": "template-code-test",        
             "project": "plant-classifier",
-            "entity": "aiteam1",
+            "entity": "",
             "config": {
                 "version": "0"
             },
