@@ -8,16 +8,15 @@ services:
       dockerfile: Dockerfile
     shm_size: 8G
     volumes:
-      - "/mnt/data-nas/:/mnt/data-nas"
       - "/data/:/data/"
-      - ".:/home/workspace/treebeard_vit"
+      - ".:/home/workspace/plant-classification_template"
     expose:
-      - "17000"
+      - "7777"
     ports:
-      - "17000:22"
+      - "7777:22"
     environment:
       - RUN_TYPE=train # train: train.py 실행, test: test.py 실행
-      - CONFIG_PATH=/home/workspace/treebeard_vit/config/vit16small224/config.json # train 또는 test 관련 configuration file
+      - CONFIG_PATH=/home/workspace/plant-classification_template/config/vit16small224/config.json # train 또는 test 관련 configuration file
     ipc: host
     stdin_open: true
     tty: true
