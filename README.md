@@ -1,12 +1,12 @@
 # Treebeard_ViT
 ## Install & Run
 ### 1. set configs
-* treebeard_vit/config/vit16small224/config.yaml
-* treebeard_vit/config/vit16small224/accelerator.yaml
+* plant-classification_template/config/vit16small224/config.yaml
+* plant-classification_template/config/vit16small224/accelerator.yaml
 * docker-compose.yaml (environment variable, network option, etc.)
 ### 2. docker compose run
 ``` shell
-git clone https://gitlab.dev-merge.com/merge-development/ai-sg/ai-model/treebeard/treebeard_vit.git && cd treebeard_vit
+git clone https://github.com/stonehye/plant-classification_template.git && cd plant-classification_template
 docker compose up --build # build & run
 docker compose down # remove docker container, image, network
 ```
