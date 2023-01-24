@@ -1,0 +1,146 @@
+{
+    "name": "vit_small_patch16_224",
+    "resume": "",
+    "log_step": 10,
+    "seed": 4,
+    "arch": {
+        "type": "vit_small_patch16_224",
+        "args": {
+            "num_classes": 345,
+            "pretrained": false
+        }
+    },
+    "data_loader": {
+        "type": "TreebeardDataLoader",
+        "args":{
+            "root": "/data/joy/treebeard_custom_0.8.1/",
+            "split": "train",
+            "metafile_path": "/data/joy/treebeard_custom_0.8.1/treebeard_species_name_new.json",
+            "batch_size": 128,
+            "shuffle": true,
+            "num_workers": 4, 
+            "training": true
+        }
+    },
+    "valid_data_loader": {
+        "type": "TreebeardDataLoader",
+        "args":{
+            "root": "/data/joy/treebeard_custom_0.8.1/",
+            "split": "val",
+            "metafile_path": "/data/joy/treebeard_custom_0.8.1/treebeard_species_name_new.json",
+            "batch_size": 64,
+            "shuffle": true,
+            "num_workers": 4, 
+            "training": true
+        }
+    },
+    "augmentation":{
+        "Resize": {
+            "size": [256, 256]
+        },
+        "RandomCrop": {
+            "size": [224, 224]
+        },
+        "RandomHorizontalFlip": {},
+        "RandomVerticalFlip": {},
+        "ToTensor": {},
+        "RandomApply": {
+            "transforms": {
+                "ColorJitter": {
+                    "brightness": [0, 0.5],
+                    "contrast": [0, 0.5]
+                }
+            },
+            "p": 0.2
+        },
+        "Normalize": {
+            "mean": [0.4425, 0.4695, 0.3266],
+            "std": [0.2353, 0.2219, 0.2325]
+        }
+    },
+    "optimizer": {
+        "type": "SGD",
+        "args":{
+            "lr": 5e-4,
+            "momentum": 0.9,
+            "weight_decay": 0.0001,
+            "nesterov": true
+        }
+    },
+    "loss": "cross_entropy_loss",
+    "metrics":[
+        {
+            "type": "top_k_acc",
+            "args": {
+                "k": 1
+            }
+        },
+        {
+            "type": "top_k_acc",
+            "args": {
+                "k": 3
+            }
+        }
+    ],
+    "lr_scheduler": {
+        "type": "MultiStepLR",
+        "args": {
+            "milestones": [15, 20, 25],
+            "gamma": 0.1
+        }
+    },
+    "trainer": {
+        "epochs": 3,
+        "save_dir": "/data/joy/results",
+        "save_period": 1,
+        "verbosity": 2,     
+        "monitor": "min val_loss",
+        "early_stop": 10,
+        "tensorboard": true
+    },
+    "logger": {
+        "log_config": {
+            "version": 1, 
+            "disable_existing_loggers": false, 
+            "formatters": {
+                "simple": {"format": "%(message)s"}, 
+                "datetime": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"}
+            }, 
+            "handlers": {
+                "console": {
+                    "class": "logging.StreamHandler", 
+                    "level": "DEBUG", 
+                    "formatter": "simple", 
+                    "stream": "ext://sys.stdout"
+                    }, 
+                "info_file_handler": {
+                    "class": "logging.handlers.RotatingFileHandler", 
+                    "level": "INFO", 
+                    "formatter": "datetime", 
+                    "filename": "info.log", 
+                    "maxBytes": 10485760, 
+                    "backupCount": 20, "encoding": "utf8"
+                }
+            }, 
+            "root": {
+                "level": "INFO", 
+                "handlers": [
+                    "console", 
+                    "info_file_handler"
+                ]
+            }
+        },
+        "wandb": {
+            "WANDB_API_KEY": "f50bc3d3372add9783d854cdef2624aa91789f65",
+            "WANDB_USERNAME": "Joy",
+            "run_name": "template-code-test",        
+            "project": "plant-classifier",
+            "entity": "aiteam1",
+            "config": {
+                "version": "0"
+            },
+            "dir": "/data/joy/wandb",
+            "log_freq": 10
+        }
+    }
+}
